@@ -4,4 +4,6 @@ project(otuscpp VERSION 0.0.2)
 
 #add_subdirectory(01_helloworld)
 
-add_subdirectory(02_ip_filter)
+add_subdirectory(02_ipfilter)
+
+enable_testing()
