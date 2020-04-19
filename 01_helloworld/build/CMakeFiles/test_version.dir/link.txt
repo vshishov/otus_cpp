@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/test_version.dir/test_version.cpp.o  -o test_version -lboost_unit_test_framework libhelloworld.a 

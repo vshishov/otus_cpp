@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/bob/otus_cpp/01_helloworld/gtest_version.cpp
+lib.h
+/home/bob/otus_cpp/01_helloworld/lib.h
+gtest/gtest.h
+-
+
+/home/bob/otus_cpp/01_helloworld/lib.h
+

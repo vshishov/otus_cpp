@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/gtest_version.dir/gtest_version.cpp.o  -o gtest_version -Wl,-Bstatic -lgtest -Wl,-Bdynamic -lpthread libhelloworld.a 
