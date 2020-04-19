@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/gtest_ip_filter.dir/test/ip_filter_tests.cpp.o  -o gtest_ip_filter -Wl,-Bstatic -lgtest -Wl,-Bdynamic -lpthread libip_filter.a 

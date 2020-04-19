@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/bob/otus_cpp/02_ip_filter/src/ip_filter.h
+iostream
+-
+string
+-
+vector
+-
+array
+-
+
+/home/bob/otus_cpp/02_ip_filter/src/main.cpp
+version.h
+/home/bob/otus_cpp/02_ip_filter/src/version.h
+ip_filter.h
+/home/bob/otus_cpp/02_ip_filter/src/ip_filter.h
+iostream
+-
+
+version.h
+
