@@ -1,0 +1,5 @@
+/home/bob/otus_cpp/build/CMakeFiles/rebuild_cache.dir
+/home/bob/otus_cpp/build/CMakeFiles/edit_cache.dir
+/home/bob/otus_cpp/build/02_ip_filter/CMakeFiles/rebuild_cache.dir
+/home/bob/otus_cpp/build/02_ip_filter/CMakeFiles/ip_filter_cli.dir
+/home/bob/otus_cpp/build/02_ip_filter/CMakeFiles/edit_cache.dir

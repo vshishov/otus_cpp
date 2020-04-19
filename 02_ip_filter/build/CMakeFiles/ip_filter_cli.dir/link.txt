@@ -1,1 +1,0 @@
-/usr/bin/c++    -rdynamic CMakeFiles/ip_filter_cli.dir/src/main.cpp.o  -o ip_filter_cli libip_filter.a 
