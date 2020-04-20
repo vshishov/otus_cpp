@@ -12,6 +12,11 @@ add_executable(gtest_ip_filter
     ip_filter_test.cpp       
 )
 
+set_target_properties(gtest_ip_filter PROPERTIES
+    CXX_STANDARD 11
+    CXX_STANDARD_REQUIRED ON
+)
+
  target_include_directories(
     gtest_ip_filter
     PRIVATE
