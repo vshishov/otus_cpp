@@ -1,4 +1,3 @@
-#include "version.h"
 #include "ip_filter.h"
 
 #include <iostream>

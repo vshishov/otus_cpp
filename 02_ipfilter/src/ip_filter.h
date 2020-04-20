@@ -3,6 +3,8 @@
 #include <vector>
 #include <array>
 
+std::vector<std::string> split(const std::string &str, char d);
+
 class CIPv4
 {
 public:
