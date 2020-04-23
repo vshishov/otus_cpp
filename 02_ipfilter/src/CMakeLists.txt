@@ -16,7 +16,7 @@ configure_file(
 )
 
 add_executable(ip_filter main.cpp)
-add_library(ip_filter_lib ip_filter.cpp version.cpp)
+add_library(ip_filter_lib ip_filter.cpp common.cpp version.cpp)
 
 
 set_target_properties(ip_filter ip_filter_lib PROPERTIES

@@ -1,24 +1,10 @@
+#include "common.h"
+
 #include "ip_filter.h"
 
 #include <cstdlib>
 #include <algorithm>
-
-std::vector<std::string> split(const std::string &str, char d)
-{
-  std::vector<std::string> r;
-
-  std::string::size_type start = 0;
-  std::string::size_type stop = str.find_first_of(d);
-  while(stop != std::string::npos)
-  {
-      r.push_back(str.substr(start, stop - start));
-
-      start = stop + 1;
-      stop = str.find_first_of(d, start);
-  }
-  r.push_back(str.substr(start));
-  return r;
-}
+#include <stdexcept>
 
 CIPv4::CIPv4()
 { }
@@ -26,13 +12,23 @@ CIPv4::CIPv4()
 CIPv4::~CIPv4()
 { }
 
-bool CIPv4::readFromStr(std::string& a_strIp)
+bool CIPv4::readFromStr(const std::string& a_strIp)
 {
   auto listBytes = split(a_strIp, '.');
   if (listBytes.size() == m_nNumBytes ) {
-    for ( int i = 0; i < m_nNumBytes; ++i) {     
-      uint8_t nByte = std::atoi(listBytes[i].c_str());
-      m_vBytes[i] = nByte;
+    for ( int i = 0; i < m_nNumBytes; ++i) {   
+      try {  
+        int nByte = std::stoi(listBytes[i].c_str());
+        if (nByte >= 0 && nByte <= 255) {
+          m_vBytes[i] = nByte;          
+        }
+        else {
+          throw std::out_of_range {"Out of range for IP address version 4"};
+        }        
+      }
+      catch (std::exception& ex) {
+        return false;
+      }
     }
     return true;
   }
@@ -97,10 +93,12 @@ void CIpPool::read(std::istream& in)
 {
   std::string strLine;
   while (std::getline(in, strLine)) {
-    std::string strIp = split(strLine, '\t')[0];
-    CIPv4 ipv4;
-    if (ipv4.readFromStr(strIp)) {
-      m_vIpAddrs.push_back(ipv4);
+    auto vListOfStrings = split(strLine, '\t');
+    if (vListOfStrings.size() > 0) {
+      CIPv4 ipv4;      
+      if (ipv4.readFromStr(vListOfStrings[0])) {
+        m_vIpAddrs.push_back(ipv4);
+      }
     }
   }
 }
@@ -120,11 +118,6 @@ void CIpPool::sort_reverse()
       return a > b ;
     }
     );
-}
-
-size_t CIpPool::size() const
-{
-  return m_vIpAddrs.size();
 }
 
 std::ostream& operator<<(std::ostream& a_Out, const CIpPool& a_Obj)

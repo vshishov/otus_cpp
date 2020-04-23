@@ -3,15 +3,13 @@
 #include <vector>
 #include <array>
 
-std::vector<std::string> split(const std::string &str, char d);
-
 class CIPv4
 {
 public:
   CIPv4();
   ~CIPv4();
 
-  bool readFromStr(std::string& a_strIp);
+  bool readFromStr(const std::string& a_strIp);
   bool filter(std::initializer_list<uint8_t> list) const;
   bool filter_any(uint8_t a_nByte) const;
   friend std::ostream& operator<<(std::ostream& a_Out, const CIPv4& a_Obj);
