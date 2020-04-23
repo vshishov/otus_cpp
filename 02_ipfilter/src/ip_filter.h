@@ -29,7 +29,6 @@ public:
   void read(std::istream& in);
   void add(const CIPv4& a_IpAddr);
   void sort_reverse();
-  size_t size() const;
   
   friend std::ostream& operator<<(std::ostream& a_out, const CIpPool& a_Obj);
 
