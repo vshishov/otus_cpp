@@ -39,7 +39,7 @@ bool CIPv4::readFromStr(const std::string& a_strIp)
 bool CIPv4::filter(std::initializer_list<uint8_t> list) const
 {
   std::vector<uint8_t> vBytes(list);
-  if (vBytes.size() > 4) {
+  if (vBytes.size() > m_nNumBytes) {
     std::cout << "error";
   }
 
