@@ -1,9 +1,6 @@
-#include "common.h"
-
 #include "ip_filter.h"
 
 #include <cstdlib>
-#include <algorithm>
 #include <stdexcept>
 
 CIPv4::CIPv4()
@@ -83,50 +80,3 @@ bool operator>(const CIPv4& a_ObjA, const CIPv4& a_ObjB)
   return false;
 }
 
-CIpPool::CIpPool() 
-{ }
-
-CIpPool::~CIpPool() 
-{ }
-
-void CIpPool::read(std::istream& in)
-{
-  std::string strLine;
-  while (std::getline(in, strLine)) {
-    auto vListOfStrings = split(strLine, '\t');
-    if (vListOfStrings.size() > 0) {
-      CIPv4 ipv4;      
-      if (ipv4.readFromStr(vListOfStrings[0])) {
-        m_vIpAddrs.push_back(ipv4);
-      }
-    }
-  }
-}
-
-void CIpPool::add(const CIPv4& a_IpAddr)
-{
-  m_vIpAddrs.push_back(a_IpAddr);
-}
-
-void CIpPool::sort_reverse()
-{
-  std::sort(
-    m_vIpAddrs.begin(), 
-    m_vIpAddrs.end(), 
-    [](CIPv4& a, CIPv4& b)
-    {
-      return a > b ;
-    }
-    );
-}
-
-std::ostream& operator<<(std::ostream& a_Out, const CIpPool& a_Obj)
-{
-  for ( auto it = a_Obj.m_vIpAddrs.cbegin(); it != a_Obj.m_vIpAddrs.cend(); ++it ) {
-    if ( it != a_Obj.m_vIpAddrs.cbegin() ) {
-      a_Out << std::endl;
-    }
-    a_Out << (*it);
-  }
-  return a_Out;
-}

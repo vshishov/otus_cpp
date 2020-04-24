@@ -88,7 +88,7 @@ TEST(IpPool, Read) {
     bufIn << "1.2.3.4\t0\t0\n" << "s.w.a.t\n" << "192.168.1.1\n";
 
 
-    CIpPool ipPool;
+    CIpPool<CIPv4> ipPool;
     ipPool.read(bufIn);
 
     std::stringstream bufOut;
@@ -111,7 +111,7 @@ TEST(IpPool, Sort) {
         << "222.130.177.64\n"
         << "222.173.235.246\n";       
 
-    CIpPool ipPool;
+    CIpPool<CIPv4> ipPool;
     ipPool.read(bufIn);
     ipPool.sort_reverse();
 
@@ -142,7 +142,7 @@ TEST(IpPool, Filter_1arg) {
         << "222.130.177.64\n"
         << "222.173.235.246\n";       
 
-    CIpPool ipPool;
+    CIpPool<CIPv4> ipPool;
     ipPool.read(bufIn);
     ipPool.sort_reverse();    
 
@@ -169,7 +169,7 @@ TEST(IpPool, Filter_2arg) {
         << "222.130.177.64\n"
         << "222.173.235.246\n";       
 
-    CIpPool ipPool;
+    CIpPool<CIPv4> ipPool;
     ipPool.read(bufIn);
     ipPool.sort_reverse();    
 
@@ -193,7 +193,7 @@ TEST(IpPool, FilterAny) {
         << "222.130.177.64\n"
         << "222.173.235.246\n";       
 
-    CIpPool ipPool;
+    CIpPool<CIPv4> ipPool;
     ipPool.read(bufIn);
     ipPool.sort_reverse();    
 

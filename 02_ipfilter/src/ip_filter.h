@@ -1,7 +1,10 @@
+#include "common.h"
+
 #include <iostream>
 #include <string>
 #include <vector>
 #include <array>
+#include <algorithm>
 
 class CIPv4
 {
@@ -20,33 +23,73 @@ private:
   std::array<uint8_t, m_nNumBytes> m_vBytes;
 };
 
+template<class TIpAddr>
 class CIpPool
 {
 public:
-  CIpPool();
-  ~CIpPool();
-
-  void read(std::istream& in);
-  void add(const CIPv4& a_IpAddr);
-  void sort_reverse();
+  CIpPool()
+  { }
   
-  friend std::ostream& operator<<(std::ostream& a_out, const CIpPool& a_Obj);
+  ~CIpPool()
+  { }
+
+  void read(std::istream& in)
+  {
+    std::string strLine;
+    while (std::getline(in, strLine)) {
+      auto vListOfStrings = split(strLine, '\t');
+      if (vListOfStrings.size() > 0) {
+        CIPv4 ipv4;      
+        if (ipv4.readFromStr(vListOfStrings[0])) {
+          m_vIpAddrs.push_back(ipv4);
+        }
+      }
+    }
+  }
+
+  void add(const CIPv4& a_IpAddr)
+  {
+    m_vIpAddrs.push_back(a_IpAddr);
+  }
+
+  void sort_reverse()
+  {
+    std::sort(
+      m_vIpAddrs.begin(), 
+      m_vIpAddrs.end(), 
+      [](CIPv4& a, CIPv4& b)
+      {
+        return a > b ;
+      }
+    );
+  }
+  
+  friend std::ostream& operator<<(std::ostream& a_Out, const CIpPool<TIpAddr>& a_Obj)
+  {
+    for ( auto it = a_Obj.m_vIpAddrs.cbegin(); it != a_Obj.m_vIpAddrs.cend(); ++it ) {
+      if ( it != a_Obj.m_vIpAddrs.cbegin() ) {
+        a_Out << std::endl;
+      }
+      a_Out << (*it);
+    }
+    return a_Out;
+  }
 
   template<typename... T>
-  CIpPool filter(T&&... args)
+  CIpPool<TIpAddr> filter(T&&... args)
   {
    return fill(
-     [&] (CIPv4& ip) -> bool 
+     [&] (TIpAddr& ip) -> bool 
      {
        return ip.filter({ std::forward<uint8_t>(args)... });
       }
     );
   }
 
-  CIpPool filter_any(uint8_t a_nByte) 
+  CIpPool<TIpAddr> filter_any(uint8_t a_nByte) 
   {
     return fill(
-      [=] (CIPv4& ip) -> bool 
+      [=] (TIpAddr& ip) -> bool 
       {
         return ip.filter_any(a_nByte);
       }
@@ -55,9 +98,9 @@ public:
 
 private:
   template<typename Func>
-  CIpPool fill(Func func)
+  CIpPool<TIpAddr> fill(Func func)
   {
-    CIpPool _pool;
+    CIpPool<TIpAddr> _pool;
     for (auto ipaddr : m_vIpAddrs) {      
       if (func(ipaddr))  {
         _pool.add(ipaddr);
@@ -67,5 +110,5 @@ private:
   }
 
 private:
-  std::vector<CIPv4> m_vIpAddrs;
+  std::vector<TIpAddr> m_vIpAddrs;
 };

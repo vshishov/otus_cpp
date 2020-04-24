@@ -4,7 +4,7 @@
 
 int main(int, char**)
 {
-  CIpPool ipPool;
+  CIpPool<CIPv4> ipPool;
   ipPool.read(std::cin); 
   ipPool.sort_reverse();  
   std::cout << ipPool << std::endl;
