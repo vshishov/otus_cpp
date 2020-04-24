@@ -2,10 +2,10 @@ cmake_minimum_required(VERSION 3.2)
 
 IF(DEFINED ENV{TRAVIS_BUILD_NUMBER})
   message("TRAVIS_BUILD_NUMBER = $ENV{TRAVIS_BUILD_NUMBER}")
-ELSE()
-  message("TRAVIS_BUILD_NUMBER is not defined")
-  # exit early
-  return()
+ELSE()  
+  set(ENV{TRAVIS_BUILD_NUMBER} 1)
+  message("Environment TRAVIS_BUILD_NUMBER is not defined!")
+  message("Set default value TRAVIS_BUILD_NUMBER = $ENV{TRAVIS_BUILD_NUMBER}")
 ENDIF()
 
 project(ip_filter VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
