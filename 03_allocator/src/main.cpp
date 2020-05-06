@@ -29,12 +29,14 @@ static void StdMapWithCustomAllocator()
 
 static void CustomListWithStdAllocator()
 {
-  List<int > _list;
+  List<int> _list;
   for (int i = 0; i < g_nCount; ++i) {
     _list.Add(i);
   }
 
-  _list.print();
+  for (auto it = _list.begin(); it != _list.end(); ++it) {
+    std::cout << *it << std::endl;
+  }
 }
 
 static void CustomListWithCustomAllocator()
@@ -44,7 +46,9 @@ static void CustomListWithCustomAllocator()
     _list.Add(i);
   }
 
-  _list.print();
+  for (auto it = _list.begin(); it != _list.end(); ++it) {
+    std::cout << *it << std::endl;
+  }
 }
 
 int main(int, char**)

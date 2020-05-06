@@ -51,11 +51,61 @@ public:
     }
   }
 
-  void print()
+  class Iterator : public std::iterator<std::input_iterator_tag, T>
   {
-    for (auto ptr = m_pHead; ptr != nullptr; ptr = ptr->next) {
-      std::cout << ptr->data << std::endl;
+    friend class List;
+
+  private:
+    Iterator(Node* a_pItem)
+      : m_pItem(a_pItem)
+    { }
+
+  public:
+    Iterator(const Iterator& it)
+      : m_pItem(it.m_pItem)
+    { }
+
+    bool operator!=(const Iterator& rhs) const
+    {
+      return m_pItem != rhs.m_pItem;
     }
+
+    bool operator==(const Iterator& rhs) const
+    {
+      return m_pItem == rhs.m_pItem;
+    }
+
+    T& operator*() const
+    {
+      return m_pItem->data;
+    }
+
+    T* operator->() const
+    {
+      return &m_pItem->data;
+    }
+
+    Iterator& operator++()
+    {
+      if (m_pItem != nullptr)
+        m_pItem = m_pItem->next;
+      return *this;
+    }
+
+  private:
+    Node* m_pItem;
+  };
+
+  typedef Iterator iterator;
+
+  iterator begin()
+  {
+    return iterator(m_pHead);
+  }
+
+  iterator end()
+  {
+    return iterator(m_pTail->next);
   }
   
 private:
