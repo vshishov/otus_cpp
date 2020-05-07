@@ -19,7 +19,7 @@ static void StdMapWithStdAllocator()
 
 static void StdMapWithCustomAllocator()
 {
-  std::map<int, int, std::less<int>, chunk_allocator<std::pair<int, int> > > _map;
+  std::map<int, int, std::less<int>, chunk_allocator<std::pair<const int, int> > > _map;
   for (int i = 0; i < g_nCount; ++i) {
     _map.emplace(i, factorial(i));
   }
