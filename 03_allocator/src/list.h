@@ -19,7 +19,7 @@ private:
   }
 
 public:
-  List(Allocator allocator = Allocator())
+  explicit List(Allocator allocator = Allocator())
     : m_pHead(nullptr)
     , m_pTail(nullptr)
     , m_allocator(allocator)
@@ -56,7 +56,7 @@ public:
     friend class List;
 
   private:
-    Iterator(Node* a_pItem)
+    explicit Iterator(Node* a_pItem)
       : m_pItem(a_pItem)
     { }
 
