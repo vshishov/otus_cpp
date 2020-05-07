@@ -1,9 +1,8 @@
 #include <iostream>
 
-static long long factorial(unsigned int n)
+constexpr long long factorial(unsigned int n)
 {
-  if (n <= 1) return 1;
-  return n * factorial(n -1);
+  return (n == 0 ? 1 : n * factorial(n -1) );
 }
 
 template<typename Map>
