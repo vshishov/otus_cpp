@@ -16,6 +16,7 @@ include_directories("inc/")
 
 add_executable(print_ip ${SRC_PATH}/main.cpp)
 
+
 set_target_properties(print_ip PROPERTIES
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON

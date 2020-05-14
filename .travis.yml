@@ -44,3 +44,4 @@ deploy:
     local_dir: docs/html
     on:
       branch: master
+      
