@@ -29,7 +29,7 @@ script:
 - cmake --build .
 - cmake --build . --target test
 - cmake --build . --target package
-- cmake --build . --target html
+- cmake --build . --target docs
 
 deploy:
   - provider: script
@@ -41,6 +41,6 @@ deploy:
     github_token: $GITHUB_TOKEN
     skip_cleanup: true
     keep_history: false
-    local_dir: html
+    local_dir: docs
     on:
       branch: master
