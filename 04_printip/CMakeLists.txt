@@ -46,8 +46,6 @@ if(DOXYGEN_FOUND)
     ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in
     ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
     @ONLY)
-    message("CMAKE_CURRENT_SOURCE_DIR/Doxyfile.in ===== ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in")
-    message("CMAKE_CURRENT_BINARY_DIR/Doxyfile ===== ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in")
   add_custom_target(
     html
     ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile

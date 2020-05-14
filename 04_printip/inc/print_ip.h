@@ -103,3 +103,13 @@ void print_ip(const std::string& value, std::ostream &sout = std::cout){
   sout << value << std::endl;
 }
 
+/** 
+ * @brief Print IP address
+ * Overloaded method for printing values from C-sting as is
+ * @param cstr C-string need print
+ * @param sout Output stream
+ * @details Prints the contents of a string
+ */
+void print_ip(const char* cstr, std::ostream &sout = std::cout){
+  sout << cstr << std::endl;
+}
