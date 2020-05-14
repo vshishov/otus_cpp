@@ -8,6 +8,8 @@ ENDIF()
 
 project(print_ip VERSION ${VERSION})
 
+find_package(Doxygen COMPONENTS dot)
+
 configure_file(
     versiondef.h.in 
     ${CMAKE_CURRENT_BINARY_DIR}/versiondef.h
@@ -47,6 +49,18 @@ else ()
     target_compile_options(print_ip_lib PRIVATE
         -Wall -Wextra -pedantic -Werror
     )
+endif()
+
+if(DOXYGEN_FOUND)
+  configure_file(
+    Doxyfile.in
+    ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+    @ONLY)
+  add_custom_target(
+    docs
+    ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    COMMENT "Creating HTML documentation with Doxygen" VERBATIM)
 endif()
 
 install(TARGETS print_ip RUNTIME DESTINATION bin)

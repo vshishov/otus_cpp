@@ -1,6 +1,14 @@
 language: cpp
 dist: bionic
 
+addons:
+  apt:
+    update: false
+    packages:
+    - libgtest-dev
+    - doxygen
+    - graphviz
+
 before_script:
 - sudo apt-get install libboost-test-dev -y
 - echo "deb http://archive.ubuntu.com/ubuntu xenial main universe" | sudo tee -a /etc/apt/sources.list
@@ -16,34 +24,23 @@ before_script:
 
 - cd $TRAVIS_BUILD_DIR
 
-addons:
-  apt:
-    update: false
-    packages:
-    - libgtest-dev
-    - doxygen
-    - graphviz
-
 script:
 - cmake .
 - cmake --build .
 - cmake --build . --target test
 - cmake --build . --target package
-- cmake --build . --target html
+- cmake --build . --target docs
 
 deploy:
-  provider: bintray
+  provider: script
   skip_cleanup: true
-  file: bintray.json
-    user: $BINTRAY_USER
-    key: $BINTRAY_API_KEY
-    edge: true
-    on:
-      branch: master
-  - provider: pages
-    github_token: $GITHUB_TOKEN
-    skip_cleanup: true
-    keep_history: false
-    local_dir: html
-    on:
-      branch: master
+  script:
+  - curl -T otuscpp-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -uvshishov:$BINTRAY_API_KEY "https://api.bintray.com/content/vshishov/otus_cpp/package/$TRAVIS_BUILD_NUMBER/otuscpp-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
+
+  provider: pages
+  github_token: $GITHUB_TOKEN
+  skip_cleanup: true
+  keep_history: false
+  local_dir: docs
+  on:
+    branch: master
