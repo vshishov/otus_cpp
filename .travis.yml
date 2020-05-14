@@ -41,6 +41,6 @@ deploy:
     skip_cleanup: true
     github_token: $GITHUB_TOKEN
     keep_history: false
-    local_dir: 04_printip/html
+    local_dir: html
     on:
       branch: master
