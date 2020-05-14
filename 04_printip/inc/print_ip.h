@@ -7,87 +7,99 @@
 #include <tuple>
 #include <type_traits>
 
+/**
+ * @brief Octet separator for printing IP addresses
+ */
 const char OCTET_SEPARATOR = '.';
 
+/** 
+ * @brief Print IP address
+ * Overloaded method for printing integer values
+ * @param num Integer value
+ * @param sout Output stream
+ */
 template<
   typename T, 
   typename = std::enable_if_t<std::is_integral<T>::value> 
 >
-void print_ip(T num){
+void print_ip(T num, std::ostream &sout = std::cout){
   int nCountByte = static_cast<int>(sizeof(T));
   for (int i = nCountByte - 1; i >= 0; --i) {    
-    std::cout << (num >> ((i) * 8) & 0xFF);
-    if (i > 0) {
-       std::cout << OCTET_SEPARATOR;
+    sout << (num >> ((i) * 8) & 0xFF);
+    if (i != 0) {
+       sout << OCTET_SEPARATOR;
     }
   }
-  std::cout << std::endl;
+  sout << std::endl;
 }
 
-template<typename>
-struct is_vector_or_list : std::false_type {};
-
-template<typename T, typename... Types>
-struct is_vector_or_list<std::vector<T, Types...>> : std::true_type {};
-
-template<typename T, typename... Types>
-struct is_vector_or_list<std::list<T, Types...>> : std::true_type {};
-
-template<
-  typename T, 
-  typename = std::enable_if_t<is_vector_or_list<T>::value> 
+/** 
+ * @brief Print IP address
+ * Overloaded method for STL containers
+ * 
+ * @param container STL container
+ * @param sout Output stream
+ */
+template <
+    template <class, class> class Container,
+    typename T,
+    typename Allocator
 >
-void print_ip(const T& container){
+void print_ip(const Container<T, Allocator>& container, std::ostream &sout = std::cout){
   for (auto it = container.begin(); it != container.end(); ++it) {
     if (it != container.begin())
-      std::cout << OCTET_SEPARATOR;
+      sout << OCTET_SEPARATOR;
     
-    std::cout << *it;
+    sout << *it;
   }
-  std::cout << std::endl;
+  sout << std::endl;
 }
 
-/**
+/** 
+ * @brief Print IP address
+ * Overloaded method for printing values in pair
  * 
- */
-template<class Tuple, std::size_t N>
-struct TuplePrinter {
-  static void print(const Tuple& t) 
-  {
-    static_assert(std::is_same<decltype(std::get<N-1>(t)), decltype(std::get<N-2>(t))>::value, "Types in a tuple are different!");
-    TuplePrinter<Tuple, N-1>::print(t);
-    std::cout << OCTET_SEPARATOR << std::get<N-1>(t);
-  }
-};
- 
-template<class Tuple>
-struct TuplePrinter<Tuple, 1> {
-  static void print(const Tuple& t) 
-  {
-    std::cout << std::get<0>(t);
-  }
-};
- 
-/**
- * @brief print_ip
- * @param value - std::string
+ * @param tup tuple with two identical types
+ * @param sout Output stream
  * 
- * @details Prints the contents of a string
+ * @throw static_assert When types in a tuple are different.
  */
-template<typename... Args, std::enable_if_t<sizeof...(Args) != 0, int> = 0>
-void print_ip(const std::tuple<Args...>& t)
-{
-  TuplePrinter<decltype(t), sizeof...(Args)>::print(t);
-  std::cout << std::endl;
+template <typename T1, typename T2>
+void print_ip(const std::tuple<T1, T2>& tup, std::ostream& sout = std::cout) {
+  static_assert(std::is_same<T1, T2>(), "Types in a tuple are different!");
+  sout << std::get<0>(tup) << OCTET_SEPARATOR << std::get<1>(tup) << std::endl;
 }
 
-/**
- * @brief print_ip
- * @param value - std::string
+/** 
+ * @brief Print IP address
+ * Overloaded method for printing values in tuple
  * 
+ * @param tup tuple with two identical typesTuple with the same types
+ * @param sout Output stream
+ * 
+ * @throw static_assert When types in a tuple are different.
+ */
+template <typename T, typename ... Ts>
+void print_ip(const std::tuple<T, Ts ...>& tup, std::ostream& sout = std::cout) {
+  using Item = typename std::tuple_element<0, std::tuple<Ts ...> >::type;
+  static_assert(std::is_same<T, Item>(), "Types in a tuple are different!");
+  sout << std::get<0>(tup) << OCTET_SEPARATOR;
+  std::apply
+  (
+    [&sout](auto , auto ... tail) {
+      print_ip(std::make_tuple(tail...), sout);
+    }, tup
+  );
+}
+
+/** 
+ * @brief Print IP address
+ * Overloaded method for printing values from sting as is
+ * @param value std::string need print
+ * @param sout Output stream
  * @details Prints the contents of a string
  */
-void print_ip(const std::string& value){
-  std::cout << value << std::endl;
+void print_ip(const std::string& value, std::ostream &sout = std::cout){
+  sout << value << std::endl;
 }
 
