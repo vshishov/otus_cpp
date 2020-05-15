@@ -1,6 +1,6 @@
 [![Build Status](
-  https://travis-ci.org/vshishov/otus_cpp.svg?branch=master
-)](https://travis-ci.com/vshishov/otus_cpp)
+  https://api.travis-ci.org/vshishov/otus_cpp.svg?branch=master
+)](https://travis-ci.org/github/vshishov/otus_cpp)
 
 # otus_cpp
 Otus cpp course homework
