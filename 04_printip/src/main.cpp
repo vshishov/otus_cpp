@@ -20,8 +20,9 @@ int main(int, char**)
     long lIp{8875824491850138409};
     print_ip(lIp);
 
-    std::string strIp{"just a string"};
-    print_ip(strIp);
+    print_ip(std::string("stl string for print as is"));
+
+    print_ip("s-ctring for print as is");
 
     std::vector<int> vecIp {192, 168, 1, 1};
     print_ip(vecIp);

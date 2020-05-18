@@ -1,11 +1,9 @@
 #pragma once
 
+#include "helper.h"
+
 #include <iostream>
-#include <string>
-#include <vector>
-#include <list>
 #include <tuple>
-#include <type_traits>
 
 /**
  * @brief Octet separator for printing IP addresses
@@ -14,18 +12,18 @@ const char OCTET_SEPARATOR = '.';
 
 /** 
  * @brief Print IP address
- * Overloaded method for printing integer values
+ * This method for printing integer values
  * @param num Integer value
  * @param sout Output stream
  */
 template<
   typename T, 
-  typename = std::enable_if_t<std::is_integral<T>::value> 
+  std::enable_if_t< std::is_integral_v<T>, bool > = true 
 >
-void print_ip(T num, std::ostream &sout = std::cout){
+void print_ip(T t, std::ostream &sout = std::cout){
   int nCountByte = static_cast<int>(sizeof(T));
   for (int i = nCountByte - 1; i >= 0; --i) {    
-    sout << (num >> ((i) * 8) & 0xFF);
+    sout << (t >> ((i) * 8) & 0xFF);
     if (i != 0) {
        sout << OCTET_SEPARATOR;
     }
@@ -35,19 +33,18 @@ void print_ip(T num, std::ostream &sout = std::cout){
 
 /** 
  * @brief Print IP address
- * Overloaded method for STL containers
+ * This method for STL containers
  * 
- * @param container STL container
+ * @param t STL container
  * @param sout Output stream
  */
-template <
-    template <class, class> class Container,
-    typename T,
-    typename Allocator
+template<
+  typename T, 
+  std::enable_if_t< is_container_v<T> && !std::is_same_v<T, std::string>, bool > = true 
 >
-void print_ip(const Container<T, Allocator>& container, std::ostream &sout = std::cout){
-  for (auto it = container.begin(); it != container.end(); ++it) {
-    if (it != container.begin())
+void print_ip(const T& t, std::ostream &sout = std::cout){
+  for (auto it = t.begin(); it != t.end(); ++it) {
+    if (it != t.begin())
       sout << OCTET_SEPARATOR;
     
     sout << *it;
@@ -56,8 +53,8 @@ void print_ip(const Container<T, Allocator>& container, std::ostream &sout = std
 }
 
 /** 
- * @brief Print IP address
- * Overloaded method for printing values in pair
+ * @brief Print tuple
+ * This method for printing values in pair
  * 
  * @param tup tuple with two identical types
  * @param sout Output stream
@@ -65,13 +62,13 @@ void print_ip(const Container<T, Allocator>& container, std::ostream &sout = std
  * @throw static_assert When types in a tuple are different.
  */
 template <typename T1, typename T2>
-void print_ip(const std::tuple<T1, T2>& tup, std::ostream& sout = std::cout) {
+void print_tuple(const std::tuple<T1, T2>& tup, std::ostream& sout = std::cout) {
   static_assert(std::is_same<T1, T2>(), "Types in a tuple are different!");
   sout << std::get<0>(tup) << OCTET_SEPARATOR << std::get<1>(tup) << std::endl;
 }
 
 /** 
- * @brief Print IP address
+ * @brief Print tuple
  * Overloaded method for printing values in tuple
  * 
  * @param tup tuple with two identical typesTuple with the same types
@@ -80,36 +77,53 @@ void print_ip(const std::tuple<T1, T2>& tup, std::ostream& sout = std::cout) {
  * @throw static_assert When types in a tuple are different.
  */
 template <typename T, typename ... Ts>
-void print_ip(const std::tuple<T, Ts ...>& tup, std::ostream& sout = std::cout) {
+void print_tuple(const std::tuple<T, Ts ...>& tup, std::ostream& sout = std::cout) {
   using Item = typename std::tuple_element<0, std::tuple<Ts ...> >::type;
   static_assert(std::is_same<T, Item>(), "Types in a tuple are different!");
   sout << std::get<0>(tup) << OCTET_SEPARATOR;
   std::apply
   (
     [&sout](auto , auto ... tail) {
-      print_ip(std::make_tuple(tail...), sout);
+      print_tuple(std::make_tuple(tail...), sout);
     }, tup
   );
 }
 
+template<
+  typename T, 
+  std::enable_if_t< is_instantiation_of_v<std::tuple, T>, bool > = true 
+>
+void print_ip(const T& t, std::ostream &sout = std::cout){
+   print_tuple(t, sout);
+}
+
+
 /** 
  * @brief Print IP address
- * Overloaded method for printing values from sting as is
- * @param value std::string need print
+ * This method for printing values from sting as is
+ * @param t std::string need print
  * @param sout Output stream
  * @details Prints the contents of a string
  */
-void print_ip(const std::string& value, std::ostream &sout = std::cout){
-  sout << value << std::endl;
+template<
+  typename T, 
+  std::enable_if_t< std::is_same_v<T, std::string>, bool > = true 
+>
+void print_ip(const T& t, std::ostream &sout = std::cout){
+  sout << t << std::endl;
 }
 
 /** 
  * @brief Print IP address
- * Overloaded method for printing values from C-sting as is
- * @param cstr C-string need print
+ * This method for printing values from C-sting as is
+ * @param t C-string need print
  * @param sout Output stream
  * @details Prints the contents of a string
  */
-void print_ip(const char* cstr, std::ostream &sout = std::cout){
-  sout << cstr << std::endl;
+template<
+  typename T, 
+  std::enable_if_t< std::is_same_v<T, const char *>, bool > = true 
+>
+void print_ip(T t, std::ostream &sout = std::cout){
+  sout << t << std::endl;
 }
