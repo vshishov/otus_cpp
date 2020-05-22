@@ -1,0 +1,20 @@
+/** @mainpage
+ *
+ *  @section intro About
+ *
+ *  This is an exercise project of Otus Cpp course.
+ *
+ *  @section usage Usage
+ *
+ *  @ref print_ip
+ *
+ *  @section building Building
+ *  Build:
+ *  @code
+ *  mkdir build
+ *  cd build
+ *  cmake ..
+ *  cmake --build .
+ *  cmake --build . --target test
+ *  @endcode
+ */
