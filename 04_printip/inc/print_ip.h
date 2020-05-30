@@ -127,3 +127,12 @@ template<
 void print_ip(T t, std::ostream &sout = std::cout){
   sout << t << std::endl;
 }
+
+
+template<
+  typename T, 
+  std::enable_if_t< std::is_same_v<T, char *>, bool > = true 
+>
+void print_ip(T t, std::ostream &sout = std::cout){
+  sout << t << std::endl;
+}

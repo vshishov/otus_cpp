@@ -24,6 +24,9 @@ int main(int, char**)
 
     print_ip("s-ctring for print as is");
 
+    char str[] {"char[] for print as is"};
+    print_ip(str);
+
     std::vector<int> vecIp {192, 168, 1, 1};
     print_ip(vecIp);
 
