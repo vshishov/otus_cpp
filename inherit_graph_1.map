@@ -1,0 +1,4 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$structis__container.html" title="Helper struct. Determines whether T is std::container. " alt="" coords="144,5,357,32"/>
+<area shape="rect" id="node3" href="$structis__instantiation__of.html" title="Helper struct. Determines whether T is a specialisation of another. " alt="" coords="179,57,322,98"/>
+</map>
