@@ -6,12 +6,12 @@ project(otuscpp)
 #add_subdirectory(01_helloworld)
 
 # 02 Homework
-#add_subdirectory(02_ipfilter)
+add_subdirectory(02_ipfilter)
 
 # 03 Homework
 #add_subdirectory(03_allocator)
 
 # 04 Homework
-add_subdirectory(04_printip)
+#add_subdirectory(04_printip)
 
 enable_testing()
